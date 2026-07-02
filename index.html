@@ -1,184 +1,908 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Obra Certa Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Código 90 — Saia do Vermelho</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
-:root{
-  --bg:#F4F1EC; --bg2:#EDE9E2; --white:#FFFFFF; --black:#1A1612;
-  --brown:#3D2B1F; --orange:#E07B39; --orange-soft:rgba(224,123,57,0.12);
-  --orange-dark:#C4622A; --green:#4A8C5C; --green-soft:rgba(74,140,92,0.1);
-  --red:#C0392B; --text:#1A1612; --muted:#8A7F76; --muted2:#C4BAB2;
-  --border:rgba(26,22,18,0.08); --r:18px; --rs:12px; --rxs:8px;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg: #0C0B09;
+  --page: #131210;
+  --ink: #F0EDE6;
+  --ink-dim: #8A8680;
+  --ink-soft: #C5C0B8;
+  --gold: #C8A84B;
+  --gold-soft: rgba(200,168,75,0.1);
+  --gold-border: rgba(200,168,75,0.2);
+  --line: rgba(240,237,230,0.07);
+  --surface: #1A1916;
+  --red-soft: rgba(180,50,40,0.08);
+  --red-border: rgba(180,50,40,0.18);
+  --green-soft: rgba(60,160,80,0.08);
+  --green-border: rgba(60,160,80,0.2);
 }
-body{font-family:'Poppins',sans-serif;color:var(--text);display:flex;justify-content:center;background:#1A1612;height:100vh;overflow:hidden}
-.shell{width:100%;max-width:390px;height:100vh;position:relative;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
-#splash{position:absolute;inset:0;z-index:500;background:var(--brown);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease}
-.sp-logo{font-family:'Outfit',sans-serif;font-size:2.2rem;font-weight:800;color:#F4F1EC}
-.sp-logo span{color:var(--orange)}
-#app{display:none;flex-direction:column;height:100%;opacity:0;transition:opacity 0.3s}
-.topbar{padding:44px 20px 10px;background:var(--brown);color:white}
-.tabs-row{display:flex;background:var(--brown);padding:0 16px 14px;gap:6px;overflow-x:auto;scrollbar-width:none}
-.tab{padding:7px 14px;border-radius:99px;font-size:0.7rem;font-weight:600;cursor:pointer;border:1.5px solid rgba(244,241,236,0.15);background:transparent;color:rgba(244,241,236,0.5);white-space:nowrap}
-.tab.on{background:var(--orange);color:#fff;border-color:var(--orange)}
-.content{flex:1;overflow-y:auto;padding:16px 16px 100px;scrollbar-width:none}
-.panel{display:none}
-.panel.on{display:block}
-.card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:12px;padding:20px}
-.field-group{margin-bottom:15px}
-.field-label{font-size:0.66rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px;display:block}
-.field-input, select{width:100%;background:rgba(255,255,255,0.7);border:1.5px solid var(--border);border-radius:var(--rs);padding:12px;font-family:inherit;font-size:0.9rem}
-.btn{width:100%;padding:15px;border-radius:var(--r);border:none;font-weight:600;cursor:pointer;background:var(--brown);color:white;transition:0.2s}
-.btn:disabled{opacity:0.5;cursor:not-allowed}
-#aiResult{background:var(--orange-soft);padding:15px;border-radius:var(--rs);font-size:0.85rem;line-height:1.5;color:var(--brown);border:1px dashed var(--orange)}
-#aiResult h4{margin-bottom:10px;color:var(--orange-dark)}
-.navbar{position:absolute;bottom:0;width:100%;height:70px;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center}
-.nav-item{text-align:center;font-size:0.6rem;color:var(--muted2);cursor:pointer}
-.nav-item.on{color:var(--orange)}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+/* ── PAGE WRAPPER ── */
+.book {
+  max-width: 680px;
+  margin: 0 auto;
+  background: var(--page);
+}
+
+/* ── COVER ── */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 48px;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(200,168,75,0.1) 0%, transparent 65%),
+              radial-gradient(ellipse 60% 40% at 50% 100%, rgba(200,168,75,0.05) 0%, transparent 60%);
+  border-bottom: 1px solid var(--line);
+}
+
+.cover-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 40px;
+}
+
+.cover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 10vw, 72px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.cover-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 3.5vw, 26px);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-bottom: 48px;
+  line-height: 1.3;
+}
+
+.cover-rule {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0 auto 48px;
+}
+
+.cover-promise {
+  font-size: 15px;
+  color: var(--ink-dim);
+  max-width: 380px;
+  line-height: 1.7;
+}
+
+.cover-promise strong { color: var(--ink); }
+
+.cover-badge {
+  margin-top: 56px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 100px;
+  padding: 8px 20px;
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ── CHAPTER HEADER ── */
+.chapter-header {
+  padding: 72px 56px 48px;
+  border-bottom: 1px solid var(--line);
+}
+
+.ch-num {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ch-num::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gold-border);
+  max-width: 48px;
+}
+
+.ch-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.ch-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* ── CHAPTER BODY ── */
+.chapter-body {
+  padding: 48px 56px 72px;
+}
+
+.chapter-body p {
+  font-size: 16px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.chapter-body p strong { color: var(--ink); font-weight: 600; }
+.chapter-body p em { color: var(--gold); font-style: italic; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  border-left: 2px solid var(--gold);
+  padding: 20px 24px;
+  margin: 32px 0;
+  background: var(--gold-soft);
+  border-radius: 0 12px 12px 0;
+}
+
+.pull-quote p {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px !important;
+  font-style: italic;
+  color: var(--ink) !important;
+  margin: 0 !important;
+  line-height: 1.5 !important;
+}
+
+/* ── HIGHLIGHT BOX ── */
+.highlight-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin: 32px 0;
+}
+
+.highlight-box h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.highlight-box p {
+  font-size: 15px !important;
+  margin-bottom: 10px !important;
+}
+
+.highlight-box p:last-child { margin-bottom: 0 !important; }
+
+/* ── WARNING BOX ── */
+.warning-box {
+  background: var(--red-soft);
+  border: 1px solid var(--red-border);
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 28px 0;
+}
+
+.warning-box p {
+  font-size: 15px !important;
+  color: #D4A8A8 !important;
+  margin-bottom: 8px !important;
+}
+
+.warning-box p:last-child { margin-bottom: 0 !important; }
+.warning-box p strong { color: var(--ink) !important; }
+
+/* ── SUCCESS BOX ── */
+.success-box {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 28px 0;
+}
+
+.success-box p {
+  font-size: 15px !important;
+  color: #A8D4B0 !important;
+  margin-bottom: 8px !important;
+}
+
+.success-box p:last-child { margin-bottom: 0 !important; }
+.success-box p strong { color: var(--ink) !important; }
+
+/* ── CHECKLIST ── */
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.check-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+.check-item::before {
+  content: '✦';
+  color: var(--gold);
+  flex-shrink: 0;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.check-item strong { color: var(--ink); }
+
+/* ── TABLE ── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+}
+
+.data-table th {
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--gold-border);
+}
+
+.data-table td {
+  padding: 12px 16px;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--line);
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+.data-table td strong { color: var(--ink); }
+.data-table .highlight-row td { color: var(--gold); font-weight: 600; }
+
+/* ── STEP BLOCKS ── */
+.steps-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 32px 0;
+  position: relative;
+}
+
+.steps-block::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 40px;
+  bottom: 40px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+
+.step-block {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 32px;
+}
+
+.step-block:last-child { padding-bottom: 0; }
+
+.step-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #000;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.step-content { padding-top: 6px; }
+
+.step-content h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.step-content p {
+  font-size: 15px !important;
+  margin-bottom: 8px !important;
+}
+
+.step-example {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--ink-dim);
+  margin-top: 10px;
+  font-family: 'DM Sans', monospace;
+  line-height: 1.8;
+}
+
+.step-example span { color: var(--gold); font-weight: 600; }
+
+/* ── SECTION DIVIDER ── */
+.section-div {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+/* ── WEEK PLAN ── */
+.week-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.week-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.week-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 2px;
+  min-width: 80px;
+}
+
+.week-content h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.week-content p {
+  font-size: 13px !important;
+  color: var(--ink-dim) !important;
+  margin: 0 !important;
+  line-height: 1.6 !important;
+}
+
+/* ── APP CTA (FINAL) ── */
+.app-cta-section {
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(200,168,75,0.07) 0%, transparent 70%);
+  padding: 80px 56px;
+  text-align: center;
+  border-top: 1px solid var(--line);
+}
+
+.app-cta-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.app-cta-eyebrow::before,
+.app-cta-eyebrow::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold-border);
+}
+
+.app-cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 38px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  color: var(--ink);
+}
+
+.app-cta-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.app-cta-body {
+  font-size: 16px;
+  color: var(--ink-dim);
+  max-width: 460px;
+  margin: 0 auto 36px;
+  line-height: 1.75;
+}
+
+.app-cta-body strong { color: var(--ink); }
+
+.app-features-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 440px;
+  margin: 0 auto 40px;
+  text-align: left;
+}
+
+.app-feat-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 14px;
+  color: var(--ink-dim);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.app-feat-row span:first-child { font-size: 18px; flex-shrink: 0; }
+
+.app-feat-row p { margin: 0; line-height: 1.5; }
+.app-feat-row p strong { color: var(--ink); display: block; font-size: 14px; }
+
+.app-price-note {
+  font-size: 14px;
+  color: var(--ink-dim);
+  margin-bottom: 28px;
+}
+
+.app-price-note strong {
+  color: var(--gold);
+  font-size: 18px;
+}
+
+.btn-app {
+  display: inline-block;
+  background: var(--gold);
+  color: #000;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 18px 44px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-app:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(200,168,75,0.3);
+}
+
+.btn-sub {
+  font-size: 12px;
+  color: var(--ink-dim);
+  margin-top: 12px;
+}
+
+/* ── PAGE BREAK ── */
+@media print {
+  .page-break { page-break-before: always; }
+  .cover { min-height: 100vh; }
+  .chapter-header { page-break-before: always; }
+}
+
+@media (max-width: 520px) {
+  .chapter-header, .chapter-body, .app-cta-section { padding-left: 24px; padding-right: 24px; }
+  .cover { padding: 60px 28px; }
+  .week-card { flex-direction: column; gap: 8px; }
+  .steps-block::before { display: none; }
+}
 </style>
 </head>
 <body>
+<div class="book">
 
-<div class="shell">
-  <div id="splash"><div class="sp-logo">Obra<span>Certa</span></div></div>
+<!-- ══════════════════════
+     CAPA
+══════════════════════ -->
+<div class="cover">
+  <div class="cover-label">Guia Completo · Edição Digital</div>
+  <div class="cover-title">CÓDIGO 90</div>
+  <div class="cover-subtitle">O método exato para sair do vermelho<br>nos próximos 90 dias</div>
+  <div class="cover-rule"></div>
+  <p class="cover-promise">
+    Sem cortar tudo que você gosta.<br>
+    Sem planilha complicada.<br>
+    <strong>Com a sequência que os bancos nunca te ensinaram.</strong>
+  </p>
+  <div class="cover-badge">✦ Método + Plano Semana a Semana</div>
+</div>
 
-  <div id="app">
-    <div class="topbar">
-      <div style="font-family:'Outfit';font-size:1.2rem;font-weight:800">Obra<span>Certa</span> AI</div>
+<!-- ══════════════════════
+     INTRO
+══════════════════════ -->
+<div class="chapter-header">
+  <div class="ch-num">Antes de começar</div>
+  <h2 class="ch-title">Por que esse guia é <em>diferente</em> de tudo que você já leu.</h2>
+</div>
+<div class="chapter-body">
+  <p>Você provavelmente já leu sobre finanças. Já viu post, já assistiu vídeo, já baixou planilha. E mesmo assim, está aqui — ainda procurando uma saída.</p>
+  <p>O problema não é falta de informação. É excesso de informação <strong>sem sequência.</strong></p>
+  <p>Esse guia não vai te ensinar teoria financeira. Vai te dar um caminho: do ponto onde você está agora até o dia que você quita a última dívida. Passo a passo, sem suposições.</p>
+
+  <div class="pull-quote">
+    <p>"O problema de quem está endividado raramente é matemático. Quase sempre é psicológico — e a solução também precisa ser."</p>
+  </div>
+
+  <p>O Código 90 funciona porque respeita dois fatos sobre seres humanos: <strong>precisamos de vitórias rápidas</strong> pra nos manter no jogo, e <strong>precisamos ver o progresso</strong> pra não desistir.</p>
+  <p>Não exige que você seja perfeito. Exige que você siga a ordem.</p>
+</div>
+
+<hr class="section-div">
+
+<!-- ══════════════════════
+     CAPÍTULO 1
+══════════════════════ -->
+<div class="chapter-header page-break">
+  <div class="ch-num">Capítulo 01</div>
+  <h2 class="ch-title">O diagnóstico real: <em>quanto você deve de verdade.</em></h2>
+</div>
+<div class="chapter-body">
+  <p>A maioria das pessoas endividadas tem uma percepção distorcida do que deve. Ou subestima — porque evita olhar — ou superestima — porque o peso emocional amplifica os números.</p>
+  <p>O primeiro passo do Código 90 não é pagar. É <strong>enxergar com clareza.</strong></p>
+
+  <div class="highlight-box">
+    <h4>O exercício dos 15 minutos</h4>
+    <p>Pegue papel, caneta e faça isso agora. Liste todas as suas dívidas em uma coluna. Para cada uma, anote:</p>
+    <div class="checklist" style="margin-top:12px;">
+      <div class="check-item">Nome do credor (banco, loja, pessoa)</div>
+      <div class="check-item">Valor total atual — não a parcela, o <strong>saldo total</strong></div>
+      <div class="check-item">Parcela mínima mensal</div>
+      <div class="check-item">Taxa de juros mensal (se souber)</div>
     </div>
-    
-    <div class="tabs-row">
-      <button class="tab on" onclick="switchTab('calc')">Calculadora IA</button>
-      <button class="tab" onclick="switchTab('obras')">Obras</button>
-      <button class="tab" onclick="switchTab('perfil')">Perfil</button>
+  </div>
+
+  <p>Não pule essa etapa. Muita gente chega nesse ponto e percebe que deve menos — ou mais — do que imaginava. As duas descobertas são úteis.</p>
+
+  <div class="warning-box">
+    <p><strong>Atenção:</strong> Se você não sabe o saldo total de alguma dívida, ligue pro credor agora e peça o saldo devedor atualizado. Trabalhar com números imprecisos vai sabotar o plano antes de começar.</p>
+  </div>
+
+  <p>Depois de listar tudo, some o total. Esse número — por maior que seja — é o inimigo que você conhece. <strong>Inimigo conhecido é inimigo derrotável.</strong></p>
+
+  <p>Exemplo de como sua lista pode ficar:</p>
+
+  <table class="data-table">
+    <tr>
+      <th>Credor</th>
+      <th>Saldo total</th>
+      <th>Mínimo/mês</th>
+    </tr>
+    <tr><td>Cartão de loja</td><td>R$ 280</td><td>R$ 60</td></tr>
+    <tr><td>Empréstimo pessoal</td><td>R$ 650</td><td>R$ 80</td></tr>
+    <tr><td>Cartão de crédito</td><td>R$ 1.200</td><td>R$ 120</td></tr>
+    <tr><td>Cheque especial</td><td>R$ 3.500</td><td>R$ 200</td></tr>
+    <tr><td>Financiamento</td><td>R$ 8.000</td><td>R$ 350</td></tr>
+    <tr class="highlight-row"><td><strong>Total</strong></td><td><strong>R$ 13.630</strong></td><td><strong>R$ 810</strong></td></tr>
+  </table>
+
+  <p>Com essa visão clara, você está pronto pro próximo passo: encontrar a sobra.</p>
+
+  <div class="highlight-box">
+    <h4>Encontrando sua sobra real</h4>
+    <p>Pegue sua renda líquida mensal e subtraia:</p>
+    <div class="checklist" style="margin-top:10px;">
+      <div class="check-item">Gastos fixos essenciais (aluguel, água, luz, mercado, transporte)</div>
+      <div class="check-item">Parcelas mínimas de todas as dívidas</div>
     </div>
-
-    <div class="content">
-      <!-- PAINEL CALCULADORA -->
-      <div class="panel on" id="panel-calc">
-        <div class="card">
-          <h3 style="margin-bottom:15px;font-family:'Outfit'">Calculadora Inteligente</h3>
-          
-          <div class="field-group">
-            <label class="field-label">O que será feito?</label>
-            <select id="superficie">
-              <option value="piso">Piso / Revestimento</option>
-              <option value="parede">Parede / Pintura</option>
-              <option value="reboco">Reboco / Chapisco</option>
-              <option value="laje">Laje</option>
-              <option value="forro">Forro</option>
-            </select>
-          </div>
-
-          <div class="field-group">
-            <label class="field-label">Tipo de Material</label>
-            <select id="material">
-              <option value="porcelanato">Porcelanato</option>
-              <option value="cerâmica">Cerâmica</option>
-              <option value="laminado">Laminado</option>
-              <option value="vinílico">Vinílico</option>
-              <option value="pedra">Pedras Naturais</option>
-              <option value="tinta-acrilica">Tinta Acrílica</option>
-            </select>
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <div class="field-group">
-              <label class="field-label">Largura (m)</label>
-              <input type="number" id="largura" class="field-input" placeholder="0.00">
-            </div>
-            <div class="field-group">
-              <label class="field-label">Altura/Comp (m)</label>
-              <input type="number" id="altura" class="field-input" placeholder="0.00">
-            </div>
-          </div>
-
-          <button class="btn" id="btnCalcular" onclick="calcularOrcamento()">Gerar Orçamento com IA</button>
-        </div>
-
-        <div id="resultBox" style="display:none" class="card">
-          <div id="aiResult">Processando...</div>
-        </div>
-      </div>
-
-      <!-- OUTROS PAINÉIS (SIMPLIFICADOS PARA MVP) -->
-      <div class="panel" id="panel-obras">
-        <div class="card">Obras em andamento aparecerão aqui.</div>
-      </div>
-      <div class="panel" id="panel-perfil">
-        <div class="card">Configurações da conta.</div>
-      </div>
-    </div>
-
-    <div class="navbar">
-      <div class="nav-item on" onclick="switchTab('calc')">📐<br>Calc</div>
-      <div class="nav-item" onclick="switchTab('obras')">🏗️<br>Obras</div>
-      <div class="nav-item" onclick="switchTab('perfil')">👤<br>Perfil</div>
-    </div>
+    <p style="margin-top:14px;">O que sobrar é a sua <strong>munição de ataque.</strong> Mesmo que seja R$50 por mês — é com ela que o método começa a funcionar.</p>
   </div>
 </div>
 
-<script>
-// Splash Logic
-window.onload = () => {
-  setTimeout(() => {
-    document.getElementById('splash').style.opacity = '0';
-    setTimeout(() => {
-      document.getElementById('splash').style.display = 'none';
-      document.getElementById('app').style.display = 'flex';
-      setTimeout(() => document.getElementById('app').style.opacity = '1', 50);
-    }, 500);
-  }, 1500);
-};
+<hr class="section-div">
 
-// Tab Logic
-function switchTab(t) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
-  document.getElementById('panel-' + t).classList.add('on');
-  event.target.classList.add('on');
-}
+<!-- ══════════════════════
+     CAPÍTULO 2
+══════════════════════ -->
+<div class="chapter-header page-break">
+  <div class="ch-num">Capítulo 02</div>
+  <h2 class="ch-title">O corte cirúrgico: onde o <em>dinheiro some</em> sem você ver.</h2>
+</div>
+<div class="chapter-body">
+  <p>Antes de falar em pagar dívidas, precisamos falar em parar de criar novas. E o maior gerador silencioso de dívidas não é o cartão de crédito — é o gasto invisível.</p>
+  <p>Gasto invisível é tudo que você paga sem decidir conscientemente. Assinatura que esqueceu de cancelar. Aplicativo de delivery quando o cansaço bate. Parcelamento "que não pesa" que some no limite do cartão.</p>
 
-// IA Logic
-async function calcularOrcamento() {
-  const btn = document.getElementById('btnCalcular');
-  const resultBox = document.getElementById('resultBox');
-  const aiResult = document.getElementById('aiResult');
-  
-  const data = {
-    superficie: document.getElementById('superficie').value,
-    material: document.getElementById('material').value,
-    largura: document.getElementById('largura').value,
-    altura: document.getElementById('altura').value
-  };
+  <div class="pull-quote">
+    <p>"Não é sobre cortar tudo. É sobre cortar o que você não escolheria se estivesse pensando claramente."</p>
+  </div>
 
-  if(!data.largura || !data.altura) return alert("Preencha as medidas!");
+  <p>O objetivo aqui não é te fazer miserável. É te fazer <strong>consciente.</strong></p>
 
-  btn.disabled = true;
-  btn.innerText = "Consultando IA...";
-  resultBox.style.display = "block";
-  aiResult.innerHTML = "Mestre de obras está fazendo os cálculos...";
+  <div class="highlight-box">
+    <h4>O mapeamento de 3 categorias</h4>
+    <p>Olhe seu extrato dos últimos 30 dias e separe cada gasto em uma dessas colunas:</p>
+    <div class="checklist" style="margin-top:12px;">
+      <div class="check-item"><strong>Essencial:</strong> sem isso, sua vida para (aluguel, comida, remédio, transporte pro trabalho)</div>
+      <div class="check-item"><strong>Escolha consciente:</strong> você paga e genuinamente gosta e usa (academia, série favorita, jantar especial)</div>
+      <div class="check-item"><strong>Automático:</strong> você paga sem perceber ou sem usar de verdade</div>
+    </div>
+    <p style="margin-top:14px;">A categoria <strong>Automático</strong> é onde mora o corte cirúrgico. Tudo lá é candidato a eliminação imediata.</p>
+  </div>
 
-  try {
-    const response = await fetch('/api/ai', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
+  <p>Para a maioria das pessoas, o corte cirúrgico libera entre R$100 e R$400 por mês sem sentir na qualidade de vida. Esse valor, adicionado à sua sobra, vai direto pra munição de ataque.</p>
 
-    const resJson = await response.json();
-    aiResult.innerHTML = resJson.result;
-  } catch (e) {
-    aiResult.innerHTML = "Erro ao calcular. Verifique sua conexão e chave de API.";
-  } finally {
-    btn.disabled = false;
-    btn.innerText = "Gerar Orçamento com IA";
-  }
-}
-</script>
+  <div class="warning-box">
+    <p><strong>Regra durante os 90 dias:</strong> Nenhum parcelamento novo. Nem "só esse." Parcelamento é dívida futura disfarçada de facilidade.</p>
+  </div>
 
+  <p>Com o diagnóstico feito e os cortes aplicados, você tem o número real com que vai trabalhar. Agora vem a parte central do método.</p>
+</div>
+
+<hr class="section-div">
+
+<!-- ══════════════════════
+     CAPÍTULO 3
+══════════════════════ -->
+<div class="chapter-header page-break">
+  <div class="ch-num">Capítulo 03</div>
+  <h2 class="ch-title">A ordem certa: a sequência que <em>os bancos não querem</em> que você saiba.</h2>
+</div>
+<div class="chapter-body">
+  <p>Aqui está o coração do Código 90.</p>
+  <p>A lógica financeira convencional diz: pague primeiro a dívida de maior juros. Matematicamente, isso economiza dinheiro. Mas a maioria das pessoas que tentam isso desiste antes de terminar — porque leva mais tempo pra ver resultado, e sem resultado, não há motivação.</p>
+
+  <div class="pull-quote">
+    <p>"Matematicamente, pagar a maior economiza nos juros. Psicologicamente, começar pela menor te mantém no jogo até o fim."</p>
+  </div>
+
+  <p>O Código 90 usa a <strong>sequência de menor pra maior</strong> — e tem uma razão muito precisa pra isso.</p>
+
+  <div class="steps-block">
+    <div class="step-block">
+      <div class="step-circle">1</div>
+      <div class="step-content">
+        <h4>Organize suas dívidas do menor saldo pro maior</h4>
+        <p>Ignore os juros por enquanto. Só o valor total importa nesse momento. A menor dívida vai primeiro.</p>
+        <div class="step-example">
+          R$ 280 — Cartão de loja &nbsp;<span>← começa aqui</span><br>
+          R$ 650 — Empréstimo pessoal<br>
+          R$ 1.200 — Cartão de crédito<br>
+          R$ 3.500 — Cheque especial<br>
+          R$ 8.000 — Financiamento
+        </div>
+      </div>
+    </div>
+    <div class="step-block">
+      <div class="step-circle">2</div>
+      <div class="step-content">
+        <h4>Pague o mínimo em todas — menos na primeira</h4>
+        <p>Nas dívidas 2, 3, 4 e 5: só o mínimo. Toda a sua munição de ataque vai concentrada na dívida menor.</p>
+        <div class="step-example">
+          R$ 280 → <span>tudo que você tiver de sobra</span><br>
+          R$ 650 → só o mínimo (R$ 80)<br>
+          R$ 1.200 → só o mínimo (R$ 120)<br>
+          R$ 3.500 → só o mínimo (R$ 200)<br>
+          R$ 8.000 → só o mínimo (R$ 350)
+        </div>
+      </div>
+    </div>
+    <div class="step-block">
+      <div class="step-circle">3</div>
+      <div class="step-content">
+        <h4>Quando quitar a primeira — comemore. Respire. E jogue tudo na próxima.</h4>
+        <p>Você pagava R$60 de mínimo + R$150 de ataque na menor. Ela sumiu. Agora esses R$210 vão todos pra segunda — junto com o R$80 que já pagava nela. A segunda recebe R$290 por mês de ataque.</p>
+        <p>A segunda cai mais rápido. A terceira cai mais rápido ainda. Isso é o efeito bola de neve: <strong>cada quitação acelera a próxima.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="success-box">
+    <p><strong>Por que isso funciona psicologicamente:</strong> a primeira vitória — quitar a menor — gera combustível emocional. Você vê que é possível. Esse sentimento de progresso é o que mantém 90% das pessoas no método quando a motivação natural cai.</p>
+  </div>
+
+  <p>Não existe "certo" e "errado" absolutos em finanças pessoais. Existe o que você consegue <strong>sustentar por 90 dias.</strong> E esse método foi desenhado exatamente pra isso.</p>
+</div>
+
+<hr class="section-div">
+
+<!-- ══════════════════════
+     CAPÍTULO 4
+══════════════════════ -->
+<div class="chapter-header page-break">
+  <div class="ch-num">Capítulo 04</div>
+  <h2 class="ch-title">Os 90 dias na prática: <em>semana a semana,</em> sem suposições.</h2>
+</div>
+<div class="chapter-body">
+  <p>Saber o método não é suficiente. A execução é onde a maioria tropeça — não por falta de vontade, mas por falta de clareza sobre o que fazer em cada momento.</p>
+  <p>Esse capítulo tira todas as suposições.</p>
+
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="week-label">Semana 1</div>
+      <div class="week-content">
+        <h5>Fundação</h5>
+        <p>Faça o diagnóstico do capítulo 1. Liste todas as dívidas com saldo total e mínimo. Calcule sua sobra real após o corte cirúrgico. Defina quanto vai atacar a menor dívida nesse mês.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Semana 2</div>
+      <div class="week-content">
+        <h5>Primeiro pagamento</h5>
+        <p>Pague os mínimos de todas as dívidas. Direcione o valor de ataque pra menor. Cancele todos os gastos automáticos que você identificou. Não crie nenhum parcelamento novo.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Semanas 3–4</div>
+      <div class="week-content">
+        <h5>Estabilização</h5>
+        <p>Monitore se o plano está funcionando. Se aparecer sobra extra (hora extra, bico, presente), ela vai 100% pra menor dívida. Revise o extrato e identifique se cortou o suficiente.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Mês 2</div>
+      <div class="week-content">
+        <h5>Momentum</h5>
+        <p>Repita o ciclo. Se a menor dívida ainda não foi quitada, continue. Se foi — celebre genuinamente e redirecione todo o valor pra próxima. Registre o progresso: você precisa ver quanto já caminhou.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Mês 3</div>
+      <div class="week-content">
+        <h5>Aceleração</h5>
+        <p>A bola de neve já está em movimento. A velocidade de quitação aumentou. Mantenha a disciplina — o terceiro mês é onde as pessoas que resistiram começam a ver transformação real nos números.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h4>Como lidar com imprevistos (e eles vão aparecer)</h4>
+    <p>Carro quebrou. Médico. Conta que esqueceu. O imprevisto faz parte do jogo — e o plano precisa sobreviver a ele.</p>
+    <div class="checklist" style="margin-top:12px;">
+      <div class="check-item"><strong>Imprevisto pequeno (até R$200):</strong> corte temporariamente o ataque desse mês e pague o mínimo em tudo. No mês seguinte, volta ao normal.</div>
+      <div class="check-item"><strong>Imprevisto médio (R$200–500):</strong> negocie um prazo extra com o credor da menor dívida se precisar. A maioria aceita.</div>
+      <div class="check-item"><strong>Imprevisto grande (acima de R$500):</strong> o plano pausa, não cancela. Resolva o imprevisto, depois retome do ponto onde parou.</div>
+    </div>
+    <p style="margin-top:14px;"><strong>Regra de ouro:</strong> imprevisto não é desculpa pra abandonar o método. É só uma pausa.</p>
+  </div>
+
+  <div class="warning-box">
+    <p><strong>O mês 2 é crítico.</strong> A motivação inicial cai. A dívida menor pode ainda não ter sido quitada. É o momento onde mais pessoas desistem — e onde quem persiste começa a se separar de quem não persiste. Se você sentir vontade de parar no mês 2, releia o capítulo 3.</p>
+  </div>
+</div>
+
+<hr class="section-div">
+
+<!-- ══════════════════════
+     CAPÍTULO 5
+══════════════════════ -->
+<div class="chapter-header page-break">
+  <div class="ch-num">Capítulo 05</div>
+  <h2 class="ch-title">Depois dos 90 dias: <em>o que muda</em> e o que não pode voltar.</h2>
+</div>
+<div class="chapter-body">
+  <p>Ao final dos 90 dias, você vai estar em um de dois lugares: dívidas zeradas (se eram menores) ou com uma redução significativa e, mais importante, um <strong>novo padrão de comportamento.</strong></p>
+  <p>Esse segundo resultado é mais valioso que qualquer número.</p>
+
+  <div class="pull-quote">
+    <p>"O objetivo dos 90 dias não é só quitar dívidas. É criar a identidade de alguém que sabe o que fazer com dinheiro."</p>
+  </div>
+
+  <p>Quando o processo terminar — ou quando você quitar a última dívida — existe uma tentação perigosa: comemorar voltando aos velhos hábitos. Parcelamentos, compras por impulso, gastos automáticos.</p>
+  <p>O antídoto é simples: o valor que você usava pra atacar dívidas não some. <strong>Ele vira reserva de emergência.</strong></p>
+
+  <div class="highlight-box">
+    <h4>O que construir depois das dívidas</h4>
+    <div class="checklist" style="margin-top:8px;">
+      <div class="check-item"><strong>Reserva de emergência:</strong> 3 a 6 meses de gastos fixos guardados. Isso é o que evita que o próximo imprevisto vire dívida.</div>
+      <div class="check-item"><strong>Regra do parcelamento:</strong> só parcela o que pagaria à vista se tivesse o dinheiro disponível agora.</div>
+      <div class="check-item"><strong>Revisão mensal:</strong> 15 minutos por mês olhando pro extrato. Gasto invisível volta — a revisão tira ele de volta.</div>
+      <div class="check-item"><strong>Fundo de objetivos:</strong> com as dívidas pagas e a reserva formada, o mesmo valor começa a trabalhar a seu favor.</div>
+    </div>
+  </div>
+
+  <p>Você chegou até aqui. Tem o diagnóstico, o corte, a sequência, o plano semana a semana e o que fazer depois. Isso é o método completo.</p>
+  <p>Mas tem uma parte do Código 90 que um guia não consegue entregar sozinho.</p>
+</div>
+
+<hr class="section-div">
+
+<!-- ══════════════════════
+     APP CTA FINAL
+══════════════════════ -->
+<div class="app-cta-section">
+  <div class="app-cta-eyebrow">O próximo passo</div>
+  <h2 class="app-cta-title">Você tem o método.<br>Agora precisa de <em>algo que te mantenha no trilho.</em></h2>
+  <p class="app-cta-body">
+    Um guia entrega conhecimento. Mas a execução de 90 dias exige acompanhamento, progresso visível e um sistema que funcione mesmo quando a motivação baixa.
+    <br><br>
+    <strong>É isso que o app Código 90 faz por você.</strong>
+  </p>
+
+  <div class="app-features-grid">
+    <div class="app-feat-row">
+      <span>🎯</span>
+      <p><strong>Ordem de quitação automática</strong>Você coloca suas dívidas e o app define a sequência exata — sem você precisar calcular.</p>
+    </div>
+    <div class="app-feat-row">
+      <span>📅</span>
+      <p><strong>Meta mensal calculada</strong>O app te diz quanto pagar por mês em cada dívida baseado na sua renda e sobra real.</p>
+    </div>
+    <div class="app-feat-row">
+      <span>⏱️</span>
+      <p><strong>Contador de liberdade</strong>Veja o dia exato que você vai quitar tudo — atualizado todo mês conforme você avança.</p>
+    </div>
+    <div class="app-feat-row">
+      <span>🔥</span>
+      <p><strong>Check-in de progresso</strong>Registre cada pagamento e veja visualmente quanto já caminhou. Isso é o que te mantém no mês 2.</p>
+    </div>
+  </div>
+
+  <p class="app-price-note">7 dias grátis pra testar. Depois, <strong>R$14,90/mês</strong> — menos que um lanche.</p>
+
+  <a href="#" class="btn-app">Quero começar meus 7 dias grátis</a>
+  <p class="btn-sub">Acesso imediato · Cancele quando quiser</p>
+</div>
+
+</div><!-- /book -->
 </body>
 </html>
